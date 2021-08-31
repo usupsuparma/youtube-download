@@ -116,6 +116,7 @@
 		<div class="controls">
 			<input type="hidden" id="video-url">
 			<select id="download-options"></select>
+			<p id="title-options"></p>
 			<button id="download-btn">Download</button>
 		</div>
 	</div>
@@ -131,13 +132,13 @@
 			fetch(host+"videoInfo?videoURL="+videoURL).then(function(response){
 				return response.json();
 			}).then(function(data){
-				console.log(data);
 				let detailsNodes = {
 					thumbnail:document.querySelector(".video-data .thumbnail img"),
-					title:document.querySelector(".video-data .info h2"),
+					title:document.querySelector(".video-data .info h2 "),
 					description:document.querySelector(".video-data .info p"),
 					videoURL:document.querySelector(".video-data .controls #video-url"),
-					downloadOptions:document.querySelector(".video-data .controls #download-options")
+					downloadOptions:document.querySelector(".video-data .controls #download-options"),
+					titleOptions:document.querySelector(".video-data .controls #title-options")
 				}
 
 				let html = "";
@@ -159,6 +160,7 @@
 
 					detailsNodes.videoURL.value = videoURL;
 					detailsNodes.downloadOptions.innerHTML = html;
+					detailsNodes.titleOptions.innerText = data.videoDetails.title;
 
 					document.querySelector(".video-data").style.display = "block";
 					document.querySelector(".video-data").scrollIntoView({
@@ -167,14 +169,18 @@
 
 				}
 			}).catch(function(error){
+				console.log(error);
 				alert("Something went wrong");
 			})
 		});
 
 		document.querySelector("#download-btn").addEventListener("click",function(){
 			let videoURL = document.querySelector("#video-url").value;
+			console.log(videoURL);
 			let itag = document.querySelector("#download-options").value;
-			window.open(host + "download?videoURL="+videoURL+"&itag="+itag);
+			var title = document.querySelectorAll('.controls p')[0].innerHTML;
+			console.log(title);
+			window.open(host + "download?videoURL="+videoURL+"&itag="+itag+"&title="+title);
 		});
 	</script>
 </body>

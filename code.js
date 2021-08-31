@@ -25,7 +25,9 @@ app.get('/videoInfo', async function (request, response) {
 app.get('/download', function (request, response) {
   const videoURL = request.query.videoURL;
   const itag = request.query.itag;
-  response.header('Content-Disposition', 'attachment; filename="video.mp4"');
+  const title = request.query.title;
+  console.log(title);
+  response.header('Content-Disposition', `attachment; filename="${title}.mp4"`);
   ytdl(videoURL, {
     filter: (format) => format.itag == itag,
   }).pipe(response);
