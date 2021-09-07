@@ -33,6 +33,6 @@ app.get('/download', function (request, response) {
   }).pipe(response);
 });
 
-app.listen(port, () => {
-  console.log(`running in port=${port}`);
+app.listen(process.env.PORT || 5000, function(){
+  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
